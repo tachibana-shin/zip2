@@ -1,11 +1,11 @@
 {
   "name": "zip2",
-  "version": "1.0.0",
-  "description": "a typescript-starter project",
+  "version": "0.0.1",
+  "description": "Library zip for javascript cross platform.git config credential.helper",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/Shin-Code-Editor/zip2",
+  "repository": "https://github.com/tachibana-shin/zip2",
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -34,17 +34,17 @@
     "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out build/docs",
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
-    "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
+    "prepublish": "yarn build"
   },
   "engines": {
     "node": ">=10"
   },
-  "dependencies": {},
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/node": "^16.7.8",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",
@@ -93,12 +93,16 @@
     }
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": false
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "exclude": [
       "**/*.spec.js"
     ]
+  },
+  "dependencies": {
+    "jszip": "^3.7.1",
+    "path-cross": "^0.0.3"
   }
 }

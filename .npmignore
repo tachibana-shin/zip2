@@ -1,0 +1,5 @@
+src/
+.github/
+.circleci/
+.vscode/
+.cspell.json

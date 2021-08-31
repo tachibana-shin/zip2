@@ -1,3 +1,9 @@
-export * from './lib/async';
-export * from './lib/hash';
-export * from './lib/number';
+import unzip from "./unzip";
+import zip from "./zip";
+
+export { zip, unzip };
+
+export default {
+  zip,
+  unzip,
+};
