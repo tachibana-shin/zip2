@@ -58,14 +58,14 @@ async function unzip({
 
   // * checking folder extractTo
   try {
-    const stat = await fs.promises.stat(path);
+    const stat = await fs.promises.stat(extractTo);
 
     if (stat.isDirectory() === false) {
       // eslint-disable-next-line functional/no-throw-statement
       throw new ENOTDIR(extractTo, "Can't unzip to a file.");
     }
   } catch (err) {
-    if (err.code === "ENOENT") {
+    if (err.code !== "ENOENT") {
       // eslint-disable-next-line functional/no-throw-statement
       throw err;
     } else {
