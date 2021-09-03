@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { basename, join } from "path-cross";
+import { dirname, join } from "path-cross";
 
 import { ENOTDIR } from "./errors";
 import { Fs } from "./types/fs";
@@ -84,6 +84,8 @@ async function unzip({
       ({ name: filename }) => isVerifyPath(filename, rules) && filter(filename)
     )
     .map(async (file, index) => {
+      const filepath = join(extractTo, file.name);
+
       if (onProgress) {
         onProgress({
           filename: file.name,
@@ -94,23 +96,21 @@ async function unzip({
       }
 
       if (file.dir) {
-        return fs.promises.mkdir(join(extractTo, file.name), {
+        return fs.promises.mkdir(filepath, {
           recursive: true,
         });
       }
 
+      const dispatch = dirname(filepath);
       try {
-        await fs.promises.stat(basename(join(extractTo, path)));
+        await fs.promises.stat(dispatch);
       } catch {
-        await fs.promises.mkdir(basename(join(extractTo, path)), {
+        await fs.promises.mkdir(dispatch, {
           recursive: true,
         });
       }
 
-      return fs.promises.writeFile(
-        join(extractTo, path),
-        await file.async("uint8array")
-      );
+      return fs.promises.writeFile(filepath, await file.async("uint8array"));
     });
 
   await Promise.all(tasks);

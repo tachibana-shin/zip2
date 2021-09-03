@@ -20,6 +20,10 @@ export function isVerifyPath(
   const pathResolved = resolveCustom(path);
 
   const verifyFilepaths = filepaths.some((filepath) => {
+    if (filepath == null || filepath === "." || filepath === "") {
+      return true;
+    }
+
     if (verifyDir) {
       return resolveCustom(filepath).startsWith(pathResolved);
     }
@@ -27,14 +31,18 @@ export function isVerifyPath(
     return resolveCustom(filepath) === pathResolved;
   });
   const verifyIgnores = ignores.every((filepath) => {
+    if (filepath == null || filepath === "." || filepath === "") {
+      return true;
+    }
+
     if (verifyDir) {
       return resolveCustom(filepath).startsWith(pathResolved);
     }
 
-    return resolveCustom(filepath) === pathResolved;
+    return resolveCustom(filepath) !== pathResolved;
   });
 
-  return verifyFilepaths && verifyIgnores === false;
+  return verifyFilepaths && verifyIgnores;
 }
 
 export function chunksFilepaths(filepaths: readonly string[]): Rules {
